@@ -5,7 +5,6 @@ from datetime import datetime
 
 st.title("Wal-Mart Radio Plays")
 
-
 df = pd.read_csv('https://storage.googleapis.com/wmradiopubbucket/data/wmradiodata.csv')
 
 df['timestamp'] = pd.to_datetime(df['timestamp'])
@@ -33,25 +32,25 @@ else:
     )
     filtered_df = df[df['song'].isin(selected_songs)]
 
-filtered_df['time_of_day'] = filtered_df['timestamp'].dt.time
-
 # Create timeline visualization
 if not filtered_df.empty:
+    # Extract date and hour components from timestamp
+    filtered_df['date'] = filtered_df['timestamp'].dt.date
+    filtered_df['hour'] = filtered_df['timestamp'].dt.hour
+
     fig = px.scatter(
         filtered_df,
-        x='timestamp',
-        y='time_of_day',  # Map time of day to y-axis
+        x='date',  # Use 'date' for the x-axis
+        y='hour',  # Use 'hour' for the y-axis
         color='artist' if filter_type == "Artist" else 'song',
         hover_data=['song', 'artist', 'timestamp'],
         title=f"Play History Timeline for Selected {filter_type}s",
         height=400
     )
 
-    fig.update_traces(marker=dict(symbol="circle"))  # Use circle markers
-
     fig.update_layout(
-        xaxis_title="Date and Time",
-        yaxis_title="Time of Day",  # Update y-axis label
+        xaxis_title="Date",
+        yaxis_title="Hour of Day",
         showlegend=True,
         hovermode='closest'
     )
@@ -64,4 +63,4 @@ if not filtered_df.empty:
         .sort_values('timestamp', ascending=False)
     )
 else:
-        st.warning("No data available for the selected filters.")
+    st.warning("No data available for the selected filters.")
