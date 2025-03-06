@@ -59,5 +59,5 @@ if not filtered_df.empty:
         filtered_df[['timestamp', 'artist', 'song']]
         .sort_values('timestamp', ascending=False)
     )
-    else:
+else:
         st.warning("No data available for the selected filters.")
