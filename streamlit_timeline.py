@@ -33,21 +33,25 @@ else:
     )
     filtered_df = df[df['song'].isin(selected_songs)]
 
+filtered_df['time_of_day'] = filtered_df['timestamp'].dt.time
+
 # Create timeline visualization
 if not filtered_df.empty:
     fig = px.scatter(
         filtered_df,
         x='timestamp',
-        y='artist' if filter_type == "Artist" else 'song',
+        y='time_of_day',  # Map time of day to y-axis
         color='artist' if filter_type == "Artist" else 'song',
         hover_data=['song', 'artist', 'timestamp'],
         title=f"Play History Timeline for Selected {filter_type}s",
         height=400
     )
 
+    fig.update_traces(marker=dict(symbol="circle"))  # Use circle markers
+
     fig.update_layout(
         xaxis_title="Date and Time",
-        yaxis_title=filter_type,
+        yaxis_title="Time of Day",  # Update y-axis label
         showlegend=True,
         hovermode='closest'
     )
