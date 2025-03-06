@@ -6,7 +6,7 @@ from datetime import datetime
 st.title("Wal-Mart Radio Plays")
 
 
-df = pd.read_csv('wmradiodata.csv')
+df = pd.read_csv('https://storage.googleapis.com/wmradiopubbucket/data/wmradiodata.csv')
 
 df['timestamp'] = pd.to_datetime(df['timestamp'])
 
