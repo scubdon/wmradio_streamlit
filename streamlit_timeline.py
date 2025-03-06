@@ -42,7 +42,7 @@ if not filtered_df.empty:
         filtered_df,
         x='date',  # Use 'date' for the x-axis
         y='hour',  # Use 'hour' for the y-axis
-        color='artist' if filter_type == "Artist" else 'song',
+        color='song',
         hover_data=['song', 'artist', 'timestamp'],
         title=f"Play History Timeline for Selected {filter_type}s",
         height=400
